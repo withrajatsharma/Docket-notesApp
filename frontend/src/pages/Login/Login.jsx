@@ -45,6 +45,7 @@ onChange={(e)=>setEmail(e.target.value)}
     <PasswordInput
       value={password}
       onChange={(e)=>setPassword(e.target.value)}
+      placeholder={"Password"}
     />
 
     {
