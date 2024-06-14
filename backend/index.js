@@ -22,8 +22,8 @@ app.use(
     })
 );
 
-app.use('/auth', authRoutes);
-app.use('/note', notesRoutes);
+app.use( "/auth",authRoutes);
+app.use( "/note",notesRoutes);
 
 dbConnection();
 
