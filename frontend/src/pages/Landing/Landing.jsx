@@ -1,8 +1,9 @@
 import React from 'react'
+import { Navigate } from 'react-router-dom'
 
 const Landing = () => {
   return (
-    <div>Landinng</div>
+    <Navigate to={"/login"}/>
   )
 }
 
