@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import PasswordInput from '../../components/Input/PasswordInput'
 import { validateEmail } from '../../utils/helper'
+import axiosInstance from "../../utils/axiosInstance"
+import axios from 'axios'
+import { UserContext } from '../../context/UserContext'
 
-const Login = () => {
+const Login = ({setUserInfo}) => {
+
+  const navigate = useNavigate();
+
 
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
@@ -24,6 +30,36 @@ const Login = () => {
         }
 
         setError("");
+
+
+        try {
+
+
+          const response = await axiosInstance.post("/auth/login",{
+            email:email,
+            password:password
+          });
+
+
+          // console.log(response)
+
+          if(response.data && response.data.success) {
+            // console.log(response.data);
+            setUserInfo(response.data.user);
+            navigate("/dashboard",{replace:true});
+          }
+
+          
+        } catch (error) {
+          console.log(`error occured in login.jsx ${error}`);
+          if (error.response && error.response.data && error.response.data.message) {
+            
+            setError(error.response.data.message);
+          }else{
+            setError("an unexpected error occurred");
+          }
+          
+        }
 
     };
 

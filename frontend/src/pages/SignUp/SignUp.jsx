@@ -1,41 +1,67 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import PasswordInput from "../../components/Input/PasswordInput.jsx";
 import { validateEmail } from "../../utils/helper.js";
+import axioxInstance from "../../utils/axiosInstance.js";
+import { UserContext } from "../../context/UserContext.jsx";
 
 const SignUp = () => {
+  const navigate = useNavigate();
 
-      const [name , setName] = useState("");
-      const [email,setEmail] = useState("");
-      const [password,setPassword] = useState("");
-      const [error,setError] = useState(null);
+ 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
+  const handleSignUp = async (e) => {
+    e.preventDefault();
 
-      const handleSignUp = async (e) => {
+    if (!name) {
+      setError("Please enter your name");
+      return;
+    }
 
-        e.preventDefault();
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
 
-        if (!name) {
-          setError("Please enter your name");
-          return;
-        }
+    if (!password) {
+      setError("Please enter a valid password");
+      return;
+    }
 
-        if(!validateEmail(email)) {
-          setError("Please enter a valid email address.");
-          return;
-        }
+    setError("");
 
-        if(!password){
-          setError("Please enter a valid password");
-          return;
-        }
+    try {
+      const response = await axioxInstance.post("/auth/create-account", {
+        fullName: name,
+        email: email,
+        password: password,
+      });
 
-        setError("");
-
-
-
-    };
+      if (response&&response.data.success) {
+        console.log(response.data);
+        setUserInfo(response.data.user);
+        navigate("/dashboard",{replace:true});
+      } else if (response.data.success == false) {
+        setError(response.data.message);
+      }
+    } catch (error) {
+      console.log(`error occured in signup.jsx ${error}`);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else {
+        setError("an unexpected error occurred");
+      }
+    }
+  };
 
   return (
     <>
@@ -46,41 +72,38 @@ const SignUp = () => {
           <form onSubmit={handleSignUp}>
             <h4 className="text-2xl mb-7">SignUp</h4>
 
+            <input
+              type="text"
+              placeholder="Name"
+              className="input-box"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Email"
+              className="input-box"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-            <input type="text" placeholder="Name" className="input-box" 
+            <PasswordInput
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={"Password"}
+            />
 
-value={name}
-onChange={(e)=>setName(e.target.value)}
+            {error && <p className=" text-red-500 text-xs pb-1">{error}</p>}
 
-/>
-            <input type="text" placeholder="Email" className="input-box" 
-
-value={email}
-onChange={(e)=>setEmail(e.target.value)}
-
-/>
-
-<PasswordInput
-      value={password}
-      onChange={(e)=>setPassword(e.target.value)}
-      placeholder={"Password"}
-    />
-
-{
-      error && <p className=' text-red-500 text-xs pb-1'>{error}</p>
-    }
-
-<button type="submit" className="btn-primary">
-Create Account
-</button>
-<p className="text-sm text-center mt-4">
-Already have an account?{" "}
-<Link to="/login" className="font-medium text-primary underline">
-Login
-</Link>
-</p>
-
-
+            <button type="submit" className="btn-primary">
+              Create Account
+            </button>
+            <p className="text-sm text-center mt-4">
+              Already have an account?{" "}
+              <Link to="/login" className="font-medium text-primary underline">
+                Login
+              </Link>
+            </p>
           </form>
         </div>
       </div>
