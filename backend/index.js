@@ -13,15 +13,18 @@ const port = process.env.PORT || 8000;
 
 const app = express();
 
-app.use(express.json());
-
-app.use(cookieParser());
-
 app.use(
     cors({
-        origin:"*",
-    })
+        origin: [process.env.FRONTEND_URL],
+        method: ["GET", "POST", "DELETE", "PUT"],
+        credentials: true,
+      })
 );
+app.use(cookieParser());
+app.use(express.json());
+// app.use(express.urlencoded({extended:true}))
+
+
 
 app.use( "/auth",authRoutes);
 app.use( "/note",notesRoutes);
