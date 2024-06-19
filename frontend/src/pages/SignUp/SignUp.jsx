@@ -4,7 +4,6 @@ import Navbar from "../../components/Navbar/Navbar.jsx";
 import PasswordInput from "../../components/Input/PasswordInput.jsx";
 import { validateEmail } from "../../utils/helper.js";
 import axioxInstance from "../../utils/axiosInstance.js";
-import { UserContext } from "../../context/UserContext.jsx";
 
 const SignUp = () => {
   const navigate = useNavigate();
