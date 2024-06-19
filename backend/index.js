@@ -15,7 +15,7 @@ const app = express();
 
 app.use(
     cors({
-        origin: "*",
+        origin: ["https://notes-app-frontend-tau.vercel.app"],
         method: ["GET", "POST", "DELETE", "PUT"],
         credentials: true,
       })
