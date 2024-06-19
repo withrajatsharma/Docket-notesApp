@@ -31,9 +31,14 @@ app.use( "/note",notesRoutes);
 
 dbConnection();
 
+app.get('/', (req,res)=>{
+    return res.send("server is running");
+});
+
 app.listen(port, () => {
     console.log(`app is running on port: ${port}`);
 })
+
 
 
 module.exports = app;

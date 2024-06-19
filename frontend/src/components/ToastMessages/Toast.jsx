@@ -5,12 +5,11 @@ import { MdDeleteOutline } from 'react-icons/md';
 const Toast = ({isShown,type,message,onClose}) => {
 
   useEffect(()=>{
-    const timeOut = setTimeout(()=>{
-        onClose();
-    },3000)
 
-    return ()=>{
-      clearTimeout(timeOut);
+    if(isShown){
+      const whatever = setTimeout(()=>{
+          onClose();
+      },2000)
     }
 
   },[onClose])

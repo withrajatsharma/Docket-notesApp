@@ -4,7 +4,6 @@ import { UserContext } from '../context/UserContext';
 
 const PrivateRoute = ({children,userInfo}) => {
 
-  // const {userInfo} = useContext(UserContext);
 
   if(userInfo!==null){
     return children

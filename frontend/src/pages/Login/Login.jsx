@@ -4,8 +4,6 @@ import {Link, useNavigate} from 'react-router-dom'
 import PasswordInput from '../../components/Input/PasswordInput'
 import { validateEmail } from '../../utils/helper'
 import axiosInstance from "../../utils/axiosInstance"
-import axios from 'axios'
-import { UserContext } from '../../context/UserContext'
 
 const Login = ({setUserInfo}) => {
 

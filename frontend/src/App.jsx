@@ -5,13 +5,13 @@ import PrivateRoute from "./Routes/PrivateRoute.jsx";
 import axiosInstance from "./utils/axiosInstance.js";
 import Landing from "./pages/Landing/Landing.jsx";
 import UserContextProvider, { UserContext } from "./context/UserContext.jsx";
-import Home from "./pages/Home/Home.jsx"
+// import Home from "./pages/Home/Home.jsx"
 import SignUp from "./pages/SignUp/SignUp.jsx"
 import Login from "./pages/Login/Login.jsx"
 
 
 
-// const Home = lazy(() => import("./pages/Home/Home.jsx"));
+const Home = lazy(() => import("./pages/Home/Home.jsx"));
 // const Login = lazy(() => import("./pages/Login/Login.jsx"));
 // const SignUp = lazy(() => import("./pages/SignUp/SignUp.jsx"));
 // const Landing = lazy(() => import("./pages/Landing/Landing.jsx"));
@@ -19,6 +19,7 @@ import Login from "./pages/Login/Login.jsx"
 const App = () => {
 
   const {userInfo,setUserInfo} = useContext(UserContext);
+
   
   return (
       <Router>

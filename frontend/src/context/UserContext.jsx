@@ -17,6 +17,7 @@ const UserContextProvider = ({children}) => {
             
           }
         } catch (error) {
+          setUserInfo(null);
           if(!error.response.data.success){
             console.log(`error: ${error.response.data.message}`);
           }

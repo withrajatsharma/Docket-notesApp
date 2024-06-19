@@ -14,8 +14,6 @@ import { UserContext } from "../../context/UserContext.jsx";
 
 const Home = ({userInfo,setUserInfo}) => {
 
-  // const {userInfo,setUserInfo} = useContext(UserContext);
-
 
   const [openAddEditModal, setOpenAddEditModal] = useState({
     isShow: false,
@@ -30,8 +28,6 @@ const Home = ({userInfo,setUserInfo}) => {
   });
 
   const [isSearch, setIsSearch] = useState(false);
-
-  // const [userInfo, setUserInfo] = useState(null);
   const [allNotes, setAllNotes] = useState("");
   const navigate = useNavigate();
 
@@ -150,16 +146,20 @@ const Home = ({userInfo,setUserInfo}) => {
     getAllNotes();
   };
 
-  useEffect(() => {
 
-  
+ useEffect(() => {
+   
     getAllNotes();
     
   },[]);
 
+  
+  
+
   return (
     <>
       <Navbar
+      setAllNotes={setAllNotes}
         userInfo={userInfo}
         setUserInfo={setUserInfo}
         onSearchNote={onSearchNote}

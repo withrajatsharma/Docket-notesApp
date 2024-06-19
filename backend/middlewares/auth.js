@@ -12,7 +12,7 @@ exports.auth = (req, res, next) => {
         const {token} = req.cookies;
 
             if(!token) {
-                return res.status(401).json({
+                return res.json({
                     success:false,
                     message:'Token is missing',
                 });
