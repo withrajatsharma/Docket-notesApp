@@ -14,11 +14,13 @@ const port = process.env.PORT || 8000;
 const app = express();
 
 app.use(
-    cors({
-        origin: ["https://notes-app-frontend-tau.vercel.app"],
+    cors(
+        {
+        origin: process.env.FRONTEND_URL,
         method: ["GET", "POST", "DELETE", "PUT"],
         credentials: true,
-      })
+      }
+    )
 );
 app.use(cookieParser());
 app.use(express.json());
