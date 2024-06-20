@@ -153,9 +153,11 @@ const logout = async (req, res) => {
   try {
     res
       .status(201)
-      .cookie("token", "", {
+      .cookie("token","", {
         httpOnly: true,
         expires: new Date(Date.now()),
+        sameSite: "None",
+        secure: true,
       })
       .json({
         success: true,
