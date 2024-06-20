@@ -84,19 +84,22 @@ const Home = ({userInfo,setUserInfo}) => {
 
       const response = await axiosInstance.get("/note/get-all-notes");
 
-      if (response.data && response.data.notes) {
-        // console.log(response.data.notes);
-        setAllNotes(response.data.notes);
-        // navigate("/dashboard")
+      if(response.data && response.data.success){
+        if (response.data.notes) {
+          setAllNotes(response.data.notes);
+        }
+        else{
+          navigate("/login",{replace:true});
+        }
       }
       else{
         navigate("/login",{replace:true});
-
       }
+
+     
     } catch (error) {
-      
-      navigate("/login",{replace:true});
       console.log("an unexpected error has occured");
+      navigate("/login",{replace:true});
     }
   };
 
