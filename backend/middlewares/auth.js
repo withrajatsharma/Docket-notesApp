@@ -23,6 +23,7 @@ exports.auth = (req, res, next) => {
                 const decode =  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
                 // console.log("decode= ",decode);
                 req.user = decode;
+                next();      
             }
             catch(err) {
                 //verification - issue
@@ -31,7 +32,7 @@ exports.auth = (req, res, next) => {
                     message:'token is invalid',
                 });
             }
-            next();            
+             
 
         
     } catch (error) {
