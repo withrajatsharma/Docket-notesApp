@@ -39,25 +39,24 @@ const signUp = async (req, res) => {
 
     user.password = undefined;
 
-    const accessToken = jwt.sign(
-      { user },
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "36000m",
-      }
-    );
-
-    
-
-   return res.cookie("token",accessToken,{
-      expiresIn: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-      httpOnly: true
-    }).status(200).json({
-      success: true,
-      user: user,
-      token: accessToken,
-      message: "user created successfully",
+    const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "36000m",
     });
+
+    return res
+      .cookie("token", accessToken, {
+        expiresIn: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+      })
+      .status(200)
+      .json({
+        success: true,
+        user: user,
+        token: accessToken,
+        message: "user created successfully",
+      });
   } catch (error) {
     res.json({
       message: "error occured",
@@ -80,33 +79,31 @@ const login = async (req, res) => {
     const user = await userModel.findOne({ email });
 
     if (!user) {
-     return res.status(200).json({
+      return res.status(200).json({
         success: false,
         message: "user does not exist",
       });
     }
 
-    
     if (await bcrypt.compare(password, user.password)) {
       user.password = undefined;
-      const accessToken = jwt.sign(
-        { user },
-        process.env.ACCESS_TOKEN_SECRET,
-        {
-          expiresIn: "24h",
-        }
-      );
-
-
-      return res.cookie("token",accessToken,{
-        expiresIn: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-        httpOnly: true
-      }).json({
-        success: true,
-        user: user,
-        token: accessToken,
-        message: "user logged in successfully",
+      const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "24h",
       });
+
+      return res
+        .cookie("token", accessToken, {
+          expiresIn: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+          httpOnly: true,
+          sameSite: "None",
+          secure: true,
+        })
+        .json({
+          success: true,
+          user: user,
+          token: accessToken,
+          message: "user logged in successfully",
+        });
     } else {
       return res.status(400).json({
         success: false,
@@ -123,66 +120,55 @@ const login = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-      try {
+  try {
+    const userId = req.user.user._id;
 
-        const userId = req.user.user._id;
+    const user = await userModel.findOne({ _id: userId });
 
-        const user = await userModel.findOne({_id:userId});
-
-        if(!user){
-         return res.status(500).json({
-            success: false,
-            message:" no such user found",
-            // error:error.message
-          });
-        }
-
-        user.password = undefined;
-
-       
-
-     return res.status(200).json({
-        success: true,
-        user,
-        message:" user found successfully"
+    if (!user) {
+      return res.status(500).json({
+        success: false,
+        message: " no such user found",
+        // error:error.message
       });
+    }
 
+    user.password = undefined;
 
-
-        
-      } catch (error) {
-       return res.status(500).json({
-          success: false,
-          message:" error occured while getting user",
-          error:error.message
-        });
-        
-      }
+    return res.status(200).json({
+      success: true,
+      user,
+      message: " user found successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: " error occured while getting user",
+      error: error.message,
+    });
+  }
 };
 
 const logout = async (req, res) => {
   try {
-
-      res.status(201).cookie('token',"",{
-            httpOnly: true,
-            expires: new Date(Date.now())
-        }).json({
-        success: true,
-        message:"user logged out successfully"
+    res
+      .status(201)
+      .cookie("token", "", {
+        httpOnly: true,
+        expires: new Date(Date.now()),
       })
-
-    
+      .json({
+        success: true,
+        message: "user logged out successfully",
+      });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message:" error occured logging out the user ",
-      error:error.message
+      message: " error occured logging out the user ",
+      error: error.message,
     });
-    
   }
 };
-
-
 
 module.exports = {
   signUp,
