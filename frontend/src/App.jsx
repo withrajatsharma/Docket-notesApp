@@ -2,9 +2,8 @@ import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import OpenRoute from "./Routes/OpenRoute.jsx";
 import PrivateRoute from "./Routes/PrivateRoute.jsx";
-import axiosInstance from "./utils/axiosInstance.js";
 import Landing from "./pages/Landing/Landing.jsx";
-import UserContextProvider, { UserContext } from "./context/UserContext.jsx";
+import { UserContext } from "./context/UserContext.jsx";
 // import Home from "./pages/Home/Home.jsx"
 import SignUp from "./pages/SignUp/SignUp.jsx"
 import Login from "./pages/Login/Login.jsx"
