@@ -5,7 +5,7 @@ import PasswordInput from "../../components/Input/PasswordInput.jsx";
 import { validateEmail } from "../../utils/helper.js";
 import axioxInstance from "../../utils/axiosInstance.js";
 
-const SignUp = () => {
+const SignUp = ({setUserInfo}) => {
   const navigate = useNavigate();
 
  
@@ -42,7 +42,7 @@ const SignUp = () => {
       });
 
       if (response&&response.data.success) {
-        console.log(response.data);
+        // console.log(response.data);
         setUserInfo(response.data.user);
         navigate("/dashboard",{replace:true});
       } else if (response.data.success == false) {

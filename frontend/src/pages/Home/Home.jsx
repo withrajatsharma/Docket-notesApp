@@ -10,7 +10,7 @@ import Toast from "../../components/ToastMessages/Toast";
 import EmptyCard from "../../components/EmptyCard/EmptyCard.jsx";
 import notesImg from "../../assets/list-empty-state.svg";
 import noDataImg from "../../assets/undraw_taking_notes_re_bnaf.svg";
-import { UserContext } from "../../context/UserContext.jsx";
+// import { UserContext } from "../../context/UserContext.jsx";
 
 const Home = ({userInfo,setUserInfo}) => {
 
