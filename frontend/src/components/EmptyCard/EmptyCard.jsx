@@ -1,8 +1,9 @@
 import React from 'react'
+import Loading from '../Loading/Loading'
 
-const EmptyCard = ({imgSrc,message}) => {
+const EmptyCard = ({imgSrc,message,loading}) => {
   return (
-    <div className=' flex flex-col items-center justify-center mt-32'>
+   loading?<Loading />: <div className=' flex flex-col items-center justify-center mt-32'>
 
       <img src={imgSrc} alt="" className=' w-60' />
 
