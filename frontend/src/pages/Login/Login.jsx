@@ -5,7 +5,7 @@ import PasswordInput from '../../components/Input/PasswordInput'
 import { validateEmail } from '../../utils/helper'
 import axiosInstance from "../../utils/axiosInstance"
 
-const Login = ({setUserInfo}) => {
+const Login = ({setUserInfo,setLoading}) => {
 
   const navigate = useNavigate();
 
@@ -16,6 +16,7 @@ const Login = ({setUserInfo}) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        
 
         if (!validateEmail(email)) {
           setError("Please enter a valid email");
@@ -29,6 +30,8 @@ const Login = ({setUserInfo}) => {
 
         setError("");
 
+
+        setLoading(true);
 
         try {
 
@@ -59,11 +62,17 @@ const Login = ({setUserInfo}) => {
           
         }
 
+        setLoading(false);
+
     };
 
   return (
-<>
-<Navbar/>
+
+     <>
+<Navbar
+  setLoading={setLoading}
+  setUserInfo={setUserInfo}
+/>
 
 <div className="flex items-center justify-center mt-28">
 <div className="w-96 border rounded bg-white px-7 py-10">

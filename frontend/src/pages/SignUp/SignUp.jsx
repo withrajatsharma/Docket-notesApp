@@ -5,7 +5,7 @@ import PasswordInput from "../../components/Input/PasswordInput.jsx";
 import { validateEmail } from "../../utils/helper.js";
 import axioxInstance from "../../utils/axiosInstance.js";
 
-const SignUp = ({setUserInfo}) => {
+const SignUp = ({setUserInfo,setLoading}) => {
   const navigate = useNavigate();
 
  
@@ -34,6 +34,8 @@ const SignUp = ({setUserInfo}) => {
 
     setError("");
 
+    setLoading(true);
+
     try {
       const response = await axioxInstance.post("/auth/create-account", {
         fullName: name,
@@ -60,11 +62,16 @@ const SignUp = ({setUserInfo}) => {
         setError("an unexpected error occurred");
       }
     }
+
+    setLoading(false);
   };
 
   return (
     <>
-      <Navbar />
+      <Navbar
+      setLoading={setLoading}
+      setUserInfo={setUserInfo}
+       />
 
       <div className="flex items-center justify-center mt-28">
         <div className="w-96 border rounded bg-white px-7 py-10">
