@@ -172,9 +172,73 @@ const logout = async (req, res) => {
   }
 };
 
+const demo = async (req, res) => {
+
+  try {
+
+    const email = process.env.DEMO_EMAIL;
+    const password = process.env.DEMO_PASSWORD;
+
+    if (!email || !password) {
+      return res.json({
+        success: false,
+        message: "something went wrong with demo email and password",
+      });
+    }
+
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.status(200).json({
+        success: false,
+        message: "demo user does not exist",
+      });
+    }
+
+    if (await bcrypt.compare(password, user.password)) {
+      user.password = undefined;
+      const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "1h",
+      });
+
+      return res
+        .cookie("token", accessToken, {
+          expiresIn: new Date(Date.now() + 60 * 60 * 1000),
+          httpOnly: true,
+          sameSite: "None",
+          secure: true,
+        })
+        .json({
+          success: true,
+          user: user,
+          token: accessToken,
+          message: "user logged in successfully",
+        });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "password incorrect",
+      });
+    }
+
+
+
+    
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message:" error occured while configuring demo user ",
+      error:error.message
+    });
+    
+  }
+
+};
+
 module.exports = {
   signUp,
   login,
   getUser,
   logout,
+  demo
 };
