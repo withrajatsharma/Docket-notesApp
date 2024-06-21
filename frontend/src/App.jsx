@@ -7,7 +7,7 @@ import { UserContext } from "./context/UserContext.jsx";
 // import Home from "./pages/Home/Home.jsx"
 import SignUp from "./pages/SignUp/SignUp.jsx"
 import Login from "./pages/Login/Login.jsx"
-
+import Loading from "./components/Loading/Loading.jsx";
 
 
 const Home = lazy(() => import("./pages/Home/Home.jsx"));
@@ -17,13 +17,11 @@ const Home = lazy(() => import("./pages/Home/Home.jsx"));
 
 const App = () => {
 
-  const {userInfo,setUserInfo} = useContext(UserContext);
+  const {userInfo,setUserInfo,loading,setLoading} = useContext(UserContext);
 
   
   return (
       <Router>
-        <Suspense fallback={<div>Loading...</div>}>
-
           <Routes>
             <Route
               path="/"
@@ -39,7 +37,7 @@ const App = () => {
               exact
               element={
                 <PrivateRoute userInfo={userInfo}>
-                  <Home userInfo={userInfo} setUserInfo={setUserInfo} />
+                  <Home userInfo={userInfo} setUserInfo={setUserInfo} loading={loading} setLoading={setLoading} />
                 </PrivateRoute>
               }
             />
@@ -49,7 +47,7 @@ const App = () => {
               exact
               element={
                 <OpenRoute userInfo={userInfo}>
-                  <Login setUserInfo={setUserInfo} />
+                 { loading?<Loading/>:<Login setUserInfo={setUserInfo} setLoading={setLoading} />}
                 </OpenRoute>
               }
             />
@@ -59,13 +57,12 @@ const App = () => {
               exact
               element={
                 <OpenRoute userInfo={userInfo}>
-                  <SignUp setUserInfo={setUserInfo} />
+                  { loading?<Loading/>:<SignUp setUserInfo={setUserInfo} setLoading={setLoading} />}
                 </OpenRoute>
               }
             />
           </Routes>
 
-        </Suspense>
       </Router>
   );
 };
