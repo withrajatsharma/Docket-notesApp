@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import NoteCard from "../../components/Cards/NoteCard.jsx";
 import { MdAdd } from "react-icons/md";
 import AddEditNotes from "./AddEditNotes.jsx";
 import Modal from "react-modal";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance.js";
 import Toast from "../../components/ToastMessages/Toast";
 import EmptyCard from "../../components/EmptyCard/EmptyCard.jsx";
 import notesImg from "../../assets/list-empty-state.svg";
 import noDataImg from "../../assets/undraw_taking_notes_re_bnaf.svg";
-// import { UserContext } from "../../context/UserContext.jsx";
+import Loading from "../../components/Loading/Loading.jsx";
 
-const Home = ({userInfo,setUserInfo}) => {
+const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
 
 
   const [openAddEditModal, setOpenAddEditModal] = useState({
@@ -37,6 +37,7 @@ const Home = ({userInfo,setUserInfo}) => {
   };
 
   const handleDelete = async (noteData) => {
+    setLoading(true);
     try {
       const response = await axiosInstance.delete(
         `/note/delete-note/${noteData._id}`
@@ -60,6 +61,8 @@ const Home = ({userInfo,setUserInfo}) => {
         console.log("an unexpected error has occured", error);
       }
     }
+    setLoading(false)
+
   };
 
   const showToastMessage = (message, type) => {
@@ -80,6 +83,8 @@ const Home = ({userInfo,setUserInfo}) => {
 
   const getAllNotes = async () => {
 
+    setLoading(true);
+
     try {
 
       const response = await axiosInstance.get("/note/get-all-notes");
@@ -95,22 +100,26 @@ const Home = ({userInfo,setUserInfo}) => {
       else{
         navigate("/login",{replace:true});
       }
-
+      
      
     } catch (error) {
       console.log("an unexpected error has occured");
       navigate("/login",{replace:true});
-    }
+    
+  }
+
+    setLoading(false);  
   };
 
   const onSearchNote = async (query) => {
+    
     try {
       const response = await axiosInstance.get("/note/search-note", {
         params: { query },
       });
 
       if (response.data) {
-        console.log(response.data);
+        // console.log(response.data);
         setIsSearch(true);
         setAllNotes(response.data.matchingNotes);
       }
@@ -120,6 +129,7 @@ const Home = ({userInfo,setUserInfo}) => {
   };
 
   const updateIsPinned = async (noteData) => {
+    setLoading(true);
     try {
       const response = await axiosInstance.put(
         `/note/update-pinned/${noteData._id}`,
@@ -142,6 +152,7 @@ const Home = ({userInfo,setUserInfo}) => {
       console.log("an unexpected error has occured", error);
       // }
     }
+    setLoading(false)
   };
 
   const handleClearSearch = async () => {
@@ -151,17 +162,16 @@ const Home = ({userInfo,setUserInfo}) => {
 
 
  useEffect(() => {
-   
-    getAllNotes();
-    
+      getAllNotes();    
   },[]);
 
   
   
 
   return (
-    <>
+    loading?<Loading />:<>
       <Navbar
+      setLoading={setLoading}
       setAllNotes={setAllNotes}
         userInfo={userInfo}
         setUserInfo={setUserInfo}
@@ -170,7 +180,8 @@ const Home = ({userInfo,setUserInfo}) => {
       />
 
       <div className="w-[95vw] mx-auto">
-        {allNotes?.length > 0 ? (
+        {allNotes?.length > 0 ? 
+        (
           <div className=" grid grid-cols-3 gap-4 mt-8">
             {allNotes?.map((item, index) => (
               <NoteCard
@@ -192,8 +203,9 @@ const Home = ({userInfo,setUserInfo}) => {
               />
             ))}
           </div>
-        ) : (
-          <EmptyCard
+        ) : 
+        ( <EmptyCard
+            loading={loading}
             imgSrc={isSearch ? noDataImg : notesImg}
             message={
               isSearch
@@ -225,6 +237,7 @@ const Home = ({userInfo,setUserInfo}) => {
         className=" w-[40%] max-h-[75%] bg-white rounded-md mx-auto mt-14 p-5 overflow-auto"
       >
         <AddEditNotes
+        setLoading={setLoading}
           type={openAddEditModal.type}
           noteData={openAddEditModal.data}
           getAllNotes={getAllNotes}

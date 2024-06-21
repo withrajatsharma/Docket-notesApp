@@ -4,7 +4,7 @@ import { MdClose } from 'react-icons/md';
 import axiosInstance from '../../utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
-const AddEditNotes = ({getAllNotes,noteData,type,onClose,showToastMessage}) => {
+const AddEditNotes = ({getAllNotes,noteData,type,onClose,setLoading,showToastMessage}) => {
 
     const navigate = useNavigate();
 
@@ -15,6 +15,8 @@ const AddEditNotes = ({getAllNotes,noteData,type,onClose,showToastMessage}) => {
     const [error,setError] = useState(null);
 
     const addNewNote = async () => {
+
+        setLoading(true);
 
         try {
 
@@ -39,9 +41,12 @@ const AddEditNotes = ({getAllNotes,noteData,type,onClose,showToastMessage}) => {
             }
             
         }
+    setLoading(false);
 
     };
     const editNote = async () => {
+
+        setLoading(true);
 
         try {
 
@@ -67,6 +72,8 @@ const AddEditNotes = ({getAllNotes,noteData,type,onClose,showToastMessage}) => {
             }
             
         }
+
+        setLoading(false);
 
 
     };
