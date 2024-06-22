@@ -19,6 +19,10 @@ const noteSchema = new Schema({
         type:Boolean,
         default:false,
     },
+    isLiked:{
+        type:Boolean,
+        default:false,
+    },
     userId:{
         type:String,
         required:true,
