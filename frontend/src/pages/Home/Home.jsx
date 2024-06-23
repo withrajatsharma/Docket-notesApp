@@ -29,6 +29,8 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
 
   const [isSearch, setIsSearch] = useState(false);
   const [allNotes, setAllNotes] = useState("");
+  const [openLiked,setOpenLiked] = useState(true);
+
   const navigate = useNavigate();
 
 
@@ -90,6 +92,7 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
       const response = await axiosInstance.get("/note/get-all-notes");
 
       if(response.data && response.data.success){
+        setOpenLiked(true);
         if (response.data.notes) {
           setAllNotes(response.data.notes);
         }
@@ -110,6 +113,38 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
 
     setLoading(false);  
   };
+
+  const getLikedNotes = async () => {
+
+    setLoading(true);
+
+    try {
+
+      const response = await axiosInstance.get("/note/get-liked-notes");
+
+      if(response.data && response.data.success){
+        setOpenLiked(false);
+        if (response.data.notes) {
+          setAllNotes(response.data.notes);
+        }
+        else{
+          navigate("/login",{replace:true});
+        }
+      }
+      else{
+        navigate("/login",{replace:true});
+      }
+      
+     
+    } catch (error) {
+      console.log("an unexpected error has occured");
+      navigate("/login",{replace:true});
+    
+  }
+
+    setLoading(false);  
+  };
+
 
   const onSearchNote = async (query) => {
     
@@ -155,6 +190,34 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
     setLoading(false)
   };
 
+  const updateIsLiked = async (noteData) => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.put(
+        `/note/update-liked/${noteData._id}`,
+        {
+          isLiked: !noteData.isLiked,
+        }
+      );
+
+      // console.log(response)
+
+      if (response.data && response.data.success) {
+        // console.log(response.data);
+        showToastMessage("Note updated successfully");
+
+        getAllNotes();
+        // onClose();
+      }
+    } catch (error) {
+      // if(error.response && error.response.data && error.response.data.message){
+      console.log("an unexpected error has occured", error);
+      // }
+    }
+    setLoading(false)
+
+  };
+
   const handleClearSearch = async () => {
     setIsSearch(false);
     getAllNotes();
@@ -171,6 +234,9 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
   return (
     loading?<Loading />:<>
       <Navbar
+      openLiked={openLiked}
+      getAllNotes={getAllNotes}
+      getLikedNotes={getLikedNotes}
       setLoading={setLoading}
       setAllNotes={setAllNotes}
         userInfo={userInfo}
@@ -185,12 +251,14 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
           <div className=" grid grid-cols-3 gap-4 mt-8">
             {allNotes?.map((item, index) => (
               <NoteCard
+                openLiked={openLiked}
                 key={item._id}
                 title={item.title}
                 date={item.createdOn}
                 content={item.content}
                 tags={item.tags}
                 isPinned={item.isPinned}
+                isLiked={item.isLiked}
                 onEdit={() => {
                   handleEdit(item);
                 }}
@@ -200,11 +268,14 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
                 onPinNote={() => {
                   updateIsPinned(item);
                 }}
+                onLike={()=>{
+                  updateIsLiked(item);
+                }}
               />
             ))}
           </div>
         ) : 
-        ( <EmptyCard
+        ( !openLiked?"no like notes":<EmptyCard
             loading={loading}
             imgSrc={isSearch ? noDataImg : notesImg}
             message={
