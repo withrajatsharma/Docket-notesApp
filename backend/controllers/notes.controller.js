@@ -193,6 +193,74 @@ const updatePinned = async (req, res) => {
     }
 };
 
+const updateLiked = async (req,res) => {
+    try {
+
+        const noteId = req.params.noteId;
+
+        const userId = req.user.user._id; 
+
+        const { isLiked } = req.body;
+
+
+        const note = await noteModel.findOne({_id:noteId,userId:userId})
+
+        if(!note){
+            return res.status(500).json({
+                success: false,
+                message:" note not found ",
+                // error:error.message
+            });
+        }
+
+        note.isLiked = isLiked;
+
+        await note.save();
+
+        return res.status(200).json({
+            success: true,
+            note,
+            message:" note liked change successfully "
+        });
+
+
+
+        
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message:" error occured while updating liked option in note",
+            error:error.message
+        });
+        
+    }
+}
+
+const getLikedNotes = async (req, res) => {
+    try {
+
+        const userId = req.user.user._id; 
+
+        const notes = await noteModel.find({userId,isLiked:true});
+
+        return res.status(200).json({
+            success: true,
+            notes,
+            message:" got all liked notes successfully"
+        });
+
+
+        
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message:" error occured while fetching liked notes",
+            error:error.message
+        });
+        
+    }
+};
+
 
 const searchNote = async (req, res) => {
 
@@ -238,4 +306,4 @@ const searchNote = async (req, res) => {
 };
 
 
-module.exports = {addNote,editNote,getAllNotes,deleteNote,updatePinned, searchNote};
+module.exports = {getLikedNotes,addNote,editNote,getAllNotes,deleteNote,updatePinned, searchNote, updateLiked};
