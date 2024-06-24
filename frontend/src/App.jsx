@@ -28,7 +28,7 @@ const App = () => {
               exact
               element={
                 <OpenRoute userInfo={userInfo}>
-                  <Landing />
+                 {  loading?<Loading/>:<Landing setUserInfo={setUserInfo} setLoading={setLoading} />}
                 </OpenRoute>
               }
             />
