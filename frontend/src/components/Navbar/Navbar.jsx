@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import ProfileInfo from "../Cards/ProfileInfo";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "../SearchBar/SearchBar";
 import axiosInstance from "../../utils/axiosInstance";
 import { FaHeart } from "react-icons/fa";
 import { FaNoteSticky } from "react-icons/fa6";
-
-
+import logo from "../../assets/reshot-icon-sticky-notes-MZFEWVHU7A.svg";
 
 const Navbar = ({
   userInfo,
@@ -19,8 +18,6 @@ const Navbar = ({
   getAllNotes,
   openLiked,
 }) => {
-
-
   const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
@@ -79,8 +76,13 @@ const Navbar = ({
   };
 
   return (
-    <div className="bg-white flex items-center justify-between px-6 py-2 drop-shadow">
-      <h2 className="text-xl font-semibold text-black py-2">Docket</h2>
+    <div className="bg-white flex items-center justify-between  px-5 sm:px-8  w-full py-2 ">
+      <Link to={"/"}>
+        <div className="-ml-2 sm:ml-0 flex items-center">
+          <img className="h-16" src={logo} alt="" />
+          <p className=" -ml-1 sm:ml-0 sm:text-xl text-lg font-bold ">DOCKET</p>
+        </div>
+      </Link>
 
       {userInfo ? (
         <>
@@ -93,30 +95,32 @@ const Navbar = ({
             onClearSearch={onClearSearch}
           />
 
-              <button className="flex  gap-2 items-center"
-                onClick={()=>{
-                  openLiked?getLikedNotes():getAllNotes();
-                }}
-              >
-                {
-                  openLiked?<>
-liked notes
-<FaHeart className={`text-xl text-red-500`}/>
-
-                  </>
-                
-                  : <>
-                 all notes
-<FaNoteSticky className={`text-xl text-primary`}/>
-
-                  </>
-                }
-              </button>
+          <button
+            className="flex  gap-2 items-center"
+            onClick={() => {
+              openLiked ? getLikedNotes() : getAllNotes();
+            }}
+          >
+            {openLiked ? (
+              <>
+                liked notes
+                <FaHeart className={`text-xl text-red-500`} />
+              </>
+            ) : (
+              <>
+                all notes
+                <FaNoteSticky className={`text-xl text-primary`} />
+              </>
+            )}
+          </button>
 
           <ProfileInfo userInfo={userInfo} onLogout={onLogout} />
         </>
       ) : (
-        <button onClick={handleTryDemo} className="btn-primary w-fit px-5">
+        <button
+          onClick={handleTryDemo}
+          className="btn-primary px-5 rounded-lg w-fit"
+        >
           Try Demo
         </button>
       )}
