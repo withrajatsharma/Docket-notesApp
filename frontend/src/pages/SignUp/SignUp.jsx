@@ -4,11 +4,13 @@ import Navbar from "../../components/Navbar/Navbar.jsx";
 import PasswordInput from "../../components/Input/PasswordInput.jsx";
 import { validateEmail } from "../../utils/helper.js";
 import axioxInstance from "../../utils/axiosInstance.js";
+import char1 from "/char2.png";
 
-const SignUp = ({setUserInfo,setLoading}) => {
+import { motion } from "framer-motion";
+
+const SignUp = ({ setUserInfo, setLoading }) => {
   const navigate = useNavigate();
 
- 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,10 +45,10 @@ const SignUp = ({setUserInfo,setLoading}) => {
         password: password,
       });
 
-      if (response&&response.data.success) {
+      if (response && response.data.success) {
         // console.log(response.data);
         setUserInfo(response.data.user);
-        navigate("/dashboard",{replace:true});
+        navigate("/dashboard", { replace: true });
       } else if (response.data.success == false) {
         setError(response.data.message);
       }
@@ -66,15 +68,19 @@ const SignUp = ({setUserInfo,setLoading}) => {
     setLoading(false);
   };
 
+  // const isMobile = window.matchMedia("(max-width: 639px)").matches
+
   return (
     <>
-      <Navbar
-      setLoading={setLoading}
-      setUserInfo={setUserInfo}
-       />
+      <Navbar setLoading={setLoading} setUserInfo={setUserInfo} />
 
-      <div className="flex items-center justify-center mt-28">
-        <div className="w-96 border rounded bg-white px-7 py-10">
+      <div className="flex items-center justify-center sm:justify-evenly mt-20 sm:mt-28">
+        <motion.div
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: 0 }}
+          className="md:w-96 w-[90vw] md:max-w-96 max-w-80  rounded bg-white px-7 py-10 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]"
+        >
           <form onSubmit={handleSignUp}>
             <h4 className="text-2xl mb-7">SignUp</h4>
 
@@ -106,12 +112,16 @@ const SignUp = ({setUserInfo,setLoading}) => {
             </button>
             <p className="text-sm text-center mt-4">
               Already have an account?{" "}
-              <Link to="/login" className="font-medium text-primary underline">
+              <Link to="/login" className=" text-black font-semibold underline">
                 Login
               </Link>
             </p>
           </form>
-        </div>
+        </motion.div>
+
+        <motion.div initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: 0 }}>
+          <img className="opacity-75 hidden sm:block" src={char1} alt="" />
+        </motion.div>
       </div>
     </>
   );
