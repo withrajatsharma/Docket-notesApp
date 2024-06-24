@@ -33,7 +33,7 @@ const Navbar = ({
       if (response && response.data.success) {
         setUserInfo(null);
         setAllNotes("");
-        navigate("/login", { replace: true });
+        navigate("/", { replace: true });
       }
     } catch (error) {
       console.log(`error: ${error}`);

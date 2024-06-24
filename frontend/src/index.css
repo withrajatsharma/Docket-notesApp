@@ -10,7 +10,9 @@
   }
   body{
     background-color: #fdfeff;
+    /* background-color: #c4c4c4; */
     overflow-x: hidden;
+    color: #545454;
   }
 }
 
@@ -21,7 +23,7 @@
     }
 
     .btn-primary{
-        @apply w-full text-sm bg-primary text-white p-2 rounded my-1 hover:bg-blue-600;
+        @apply w-full text-sm bg-primary transition-colors text-white p-2 rounded my-1 hover:bg-textclr;
     }
     .icon-btn{
       @apply text-xl text-slate-300 cursor-pointer hover:text-primary; 
