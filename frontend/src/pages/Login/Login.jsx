@@ -6,6 +6,7 @@ import { validateEmail } from "../../utils/helper";
 import axiosInstance from "../../utils/axiosInstance";
 import char1 from "/char1.png";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 const Login = ({ setUserInfo, setLoading }) => {
   const navigate = useNavigate();
@@ -44,6 +45,15 @@ const Login = ({ setUserInfo, setLoading }) => {
         setUserInfo(response.data.user);
         navigate("/dashboard", { replace: true });
       }
+      else if(response.data && !response.data.success) {
+        toast.error(
+          "incorrect password",
+          {duration:3000,position:"top-right"}
+        )
+        // console.log("incorrect password");
+        // setError("password is incorrect");
+      }
+
     } catch (error) {
       console.log(`error occured in login.jsx ${error}`);
       if (
