@@ -11,6 +11,9 @@ import EmptyCard from "../../components/EmptyCard/EmptyCard.jsx";
 import notesImg from "../../assets/list-empty-state.svg";
 import noDataImg from "../../assets/undraw_taking_notes_re_bnaf.svg";
 import Loading from "../../components/Loading/Loading.jsx";
+import SideNav from "../../components/Navbar/SideNav.jsx";
+
+
 
 const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
 
@@ -147,7 +150,7 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
 
 
   const onSearchNote = async (query) => {
-    
+    setLoading(true);
     try {
       const response = await axiosInstance.get("/note/search-note", {
         params: { query },
@@ -161,6 +164,7 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const updateIsPinned = async (noteData) => {
@@ -231,24 +235,150 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
   
   
 
+  // return (
+
+
+  //   loading?<Loading />:<>
+  //     <Navbar
+  //     openLiked={openLiked}
+  //     getAllNotes={getAllNotes}
+  //     getLikedNotes={getLikedNotes}
+  //     setLoading={setLoading}
+  //     setAllNotes={setAllNotes}
+  //       userInfo={userInfo}
+  //       setUserInfo={setUserInfo}
+  //       onSearchNote={onSearchNote}
+  //       handleClearSearch={handleClearSearch}
+  //     />
+
+  //     <div className="w-[95vw] mx-auto">
+  //       {allNotes?.length > 0 ? 
+  //       (
+  //         <div className=" grid grid-cols-3 gap-4 mt-8">
+  //           {allNotes?.map((item, index) => (
+  //             <NoteCard
+  //               openLiked={openLiked}
+  //               key={item._id}
+  //               title={item.title}
+  //               date={item.createdOn}
+  //               content={item.content}
+  //               tags={item.tags}
+  //               isPinned={item.isPinned}
+  //               isLiked={item.isLiked}
+  //               onEdit={() => {
+  //                 handleEdit(item);
+  //               }}
+  //               onDelete={() => {
+  //                 handleDelete(item);
+  //               }}
+  //               onPinNote={() => {
+  //                 updateIsPinned(item);
+  //               }}
+  //               onLike={()=>{
+  //                 updateIsLiked(item);
+  //               }}
+  //             />
+  //           ))}
+  //         </div>
+  //       ) : 
+  //       ( !openLiked?"no like notes":<EmptyCard
+  //           loading={loading}
+  //           imgSrc={isSearch ? noDataImg : notesImg}
+  //           message={
+  //             isSearch
+  //               ? "oops! no notes found matching your search."
+  //               : `Start creating your first note! Click the 'ADD' button to jot down your thoughts, ideas and reminders. Let's get started!`
+  //           }
+  //         />
+  //       )}
+  //     </div>
+
+  //     <button
+  //       className=" w-16 h-16 items-center flex justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10"
+  //       onClick={() => {
+  //         setOpenAddEditModal({ isShow: true, type: "add", data: null });
+  //       }}
+  //     >
+  //       <MdAdd className=" text-[32px] text-white" />
+  //     </button>
+
+  //     <Modal
+  //       isOpen={openAddEditModal.isShow}
+  //       onRequestClose={() => {}}
+  //       style={{
+  //         overlay: {
+  //           backgroundColor: "rgba(0,0,0,0.2",
+  //         },
+  //       }}
+  //       contentLabel=""
+  //       className=" w-[40%] max-h-[75%] bg-white rounded-md mx-auto mt-14 p-5 overflow-auto"
+  //     >
+  //       <AddEditNotes
+  //       setLoading={setLoading}
+  //         type={openAddEditModal.type}
+  //         noteData={openAddEditModal.data}
+  //         getAllNotes={getAllNotes}
+  //         onClose={() => {
+  //           setOpenAddEditModal({ isShow: false, type: "add", data: null });
+  //         }}
+  //         showToastMessage={showToastMessage}
+  //       />
+  //     </Modal>
+
+  //     <Toast
+  //       isShown={showToastMsg.isShown}
+  //       message={showToastMsg.message}
+  //       type={showToastMsg.type}
+  //       onClose={handleCloseToast}
+  //     />
+  //   </>
+  // );
+
   return (
-    loading?<Loading />:<>
+<main className="flex w-full h-screen  ">
+
+
+      <div className="w-[15%]">
+
+        <SideNav 
+          openLiked={openLiked}
+          getAllNotes={getAllNotes}
+          getLikedNotes={getLikedNotes}
+          setLoading={setLoading}
+          setAllNotes={setAllNotes}
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
+          setOpenAddEditModal={setOpenAddEditModal}
+        />
+
+
+      </div>
+
+
+
+      <div className="w-[85%]  overflow-y-scroll scrollhidden relative">
+<div className="fixed w-[85%]">
+
       <Navbar
       openLiked={openLiked}
       getAllNotes={getAllNotes}
       getLikedNotes={getLikedNotes}
       setLoading={setLoading}
       setAllNotes={setAllNotes}
-        userInfo={userInfo}
-        setUserInfo={setUserInfo}
-        onSearchNote={onSearchNote}
-        handleClearSearch={handleClearSearch}
+      userInfo={userInfo}
+      setUserInfo={setUserInfo}
+      onSearchNote={onSearchNote}
+      handleClearSearch={handleClearSearch}
       />
 
-      <div className="w-[95vw] mx-auto">
-        {allNotes?.length > 0 ? 
+      </div>
+
+    {
+      loading?<Loading/>:
+      <div className="w-[95%] mx-auto">
+      {allNotes?.length > 0 ? 
         (
-          <div className=" grid grid-cols-3 gap-4 mt-8">
+          <div className=" grid grid-cols-3 gap-4 mt-28 mb-8">
             {allNotes?.map((item, index) => (
               <NoteCard
                 openLiked={openLiked}
@@ -286,15 +416,20 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
           />
         )}
       </div>
+    }    
 
-      <button
-        className=" w-16 h-16 items-center flex justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10"
+
+{/* <button
+        className=" w-16 h-16 items-center flex justify-center rounded-2xl bg-primary hover:bg-textclr fixed right-10 bottom-10"
         onClick={() => {
           setOpenAddEditModal({ isShow: true, type: "add", data: null });
         }}
       >
         <MdAdd className=" text-[32px] text-white" />
-      </button>
+      </button> */}
+
+
+
 
       <Modal
         isOpen={openAddEditModal.isShow}
@@ -325,8 +460,16 @@ const Home = ({userInfo,setUserInfo,loading,setLoading}) => {
         type={showToastMsg.type}
         onClose={handleCloseToast}
       />
-    </>
-  );
+
+
+
+      </div>
+
+      
+    </main>
+  )
+
+
 };
 
 export default Home;
