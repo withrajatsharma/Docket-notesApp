@@ -15,6 +15,10 @@
     color: #545454;
   }
 }
+.scrollhidden::-webkit-scrollbar {
+    display: none;
+}
+
 
 @layer components{
     .input-box{
