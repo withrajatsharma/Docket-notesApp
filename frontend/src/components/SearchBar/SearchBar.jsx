@@ -6,10 +6,10 @@ const SearchBar = ({value,onChange,handleSearch,onClearSearch}) => {
 
 
   return (
-    <div className=' w-80 flex items-center px-4 bg-slate-100 rounded-md'>
+    <div className=' w-[40%] flex items-center px-5 py-1 bg-white shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]  rounded-lg'>
         <input type="text"
             placeholder='Search Notes'
-            className=' w-full text-xs bg-transparent py-[11px] outline-none'
+            className=' w-full text-sm bg-transparent py-[11px] outline-none'
             value={value}
             onChange={onChange}
         />
