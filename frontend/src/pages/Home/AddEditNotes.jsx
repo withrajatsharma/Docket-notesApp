@@ -100,10 +100,10 @@ const AddEditNotes = ({getAllNotes,noteData,type,onClose,setLoading,showToastMes
     };
 
   return (
-    <div className=' relative'>
+    <div className=' relative '>
 
-        <button className=' w-10 h-10 rounded-full flex items-center justify-center absolute -top-3 hover:bg-slate-50 -right-3 ' onClick={onClose}>
-            <MdClose className=' text-xl text-slate-400'/>
+        <button className=' w-10 h-10 rounded-full flex items-center justify-center absolute -top-3 hover:bg-slate-100 -right-3 ' onClick={onClose}>
+            <MdClose className=' text-xl text-primary'/>
         </button>
 
 
@@ -111,7 +111,7 @@ const AddEditNotes = ({getAllNotes,noteData,type,onClose,setLoading,showToastMes
             <label className=' input-label'>TITLE</label>
             <input type="text"
             className=' text-2xl text-slate-950 outline-none'
-            placeholder='Go To Gym'
+            placeholder='Grocery'
             value={title}
             onChange={({target})=>setTitle(target.value)}
             />
@@ -123,7 +123,7 @@ const AddEditNotes = ({getAllNotes,noteData,type,onClose,setLoading,showToastMes
            <textarea
            className='p-2 text-sm text-slate-950 outline-none bg-slate-50 rounded'
            type='text'
-           placeholder='content'
+           placeholder='items'
            rows={10}
            value={content}
            onChange={({target})=>setContent(target.value)}
