@@ -25,6 +25,7 @@ const App = () => {
     useContext(UserContext);
   const location = useLocation();
 
+
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
