@@ -18,7 +18,7 @@ const TagInput = ({tags,setTags}) => {
 
         const handleKeydown = (e) => {
             if (e.key === "Enter") {
-                addNewTag();
+               tags.length<5&&addNewTag();
             }
         };
 
@@ -53,10 +53,10 @@ const TagInput = ({tags,setTags}) => {
 
             <button
             onClick={()=>{
-                addNewTag();
+                tags.length<5&&addNewTag();
             }}
-            className=' group w-8 h-8 flex items-center justify-center rounded border border-blue-700 hover:bg-blue-700'>
-                <MdAdd className=" text-2xl text-blue-700  group-hover:text-white"/>
+            className=' group w-8 h-8 flex items-center justify-center rounded border border-primary hover:bg-primary'>
+                <MdAdd className=" text-2xl text-textclr  group-hover:text-white"/>
             </button>
         </div>
     </div>
