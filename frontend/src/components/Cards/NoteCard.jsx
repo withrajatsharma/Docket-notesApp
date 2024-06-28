@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaRegHeart,FaHeart,FaStar } from "react-icons/fa";
+import { FaRegHeart,FaHeart,FaStar, FaRegStar } from "react-icons/fa";
 import moment from 'moment';
 import { RiDeleteBin6Line } from "react-icons/ri";
 
