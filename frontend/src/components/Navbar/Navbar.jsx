@@ -53,7 +53,7 @@ const Navbar = ({
   };
 
   return userInfo ? (
-    <div className=" items-center flex  justify-center w-screen pt-5 ">
+    <div className=" items-center flex  justify-center pt-5 ">
       <SearchBar
         value={searchQuery}
         onChange={({ target }) => {
