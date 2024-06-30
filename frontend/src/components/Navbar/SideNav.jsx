@@ -8,8 +8,6 @@ import { FiLogOut } from "react-icons/fi";
 import { RiAddLargeLine } from "react-icons/ri";
 
 
-
-
 const SideNav = ({getLikedNotes,
     getAllNotes,
     userInfo,
@@ -39,12 +37,12 @@ const SideNav = ({getLikedNotes,
 
 
   return (
-    <div className=' w-full h-full overflow-hidden border '>
+    <div className=' w-[15vw] h-full overflow-hidden border '>
 
 <Link to={"/"}>
         <div className=" pt-2 -ml-2 flex justify-center items-center">
-          <img className="h-20" src={logo} alt="" />
-          <p className=" -ml-2 sm:text-2xl text-lg font-bold ">DOCKET</p>
+          <img className="h-20 lg:h-[5vw]" src={logo} alt="" />
+          <p className=" -ml-2 lg:text-[1.5vw] text-lg font-bold ">DOCKET</p>
         </div>
       </Link>
 
@@ -72,7 +70,7 @@ const SideNav = ({getLikedNotes,
 
     
 <button
-  className="flex  gap-2 items-center hover:bg-secondary ease-linear  py-2 rounded-lg hover:px-5 transition-all"
+  className="flex  gap-2 items-center hover:bg-secondary ease-linear  py-2 rounded-lg hover:pl-5 transition-all"
   onClick={() => {
     getAllNotes();
   }}
@@ -83,7 +81,7 @@ const SideNav = ({getLikedNotes,
   
 </button>
 <button
-  className="flex  gap-2 items-center hover:bg-secondary ease-linear  py-2 rounded-lg hover:px-5 transition-all"
+  className="flex  gap-2 items-center hover:bg-secondary ease-linear  py-2 rounded-lg hover:pl-5 transition-all"
   onClick={() => {
      getLikedNotes(); 
   }}
@@ -99,7 +97,7 @@ const SideNav = ({getLikedNotes,
 
 
 
-<button className='flex  gap-2 items-center hover:bg-secondary ease-linear  py-2 rounded-lg hover:px-5 transition-all  ' onClick={onLogout}>
+<button className='flex  gap-2 items-center hover:bg-secondary ease-linear  py-2 rounded-lg hover:pl-5 transition-all  ' onClick={onLogout}>
 <FiLogOut className="text-xl text-primary" />
                 Logout
             </button>
