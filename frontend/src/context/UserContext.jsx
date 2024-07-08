@@ -14,11 +14,10 @@ const UserContextProvider = ({children}) => {
           const response = await axiosInstance.get("/auth/get-user");
     
           if (response.data.user) {
-            // setLoading(false);            
+                   
             setUserInfo(response.data.user);
           }
         } catch (error) {
-          // setLoading(false);
           setUserInfo(null);
           if(!error.response.data.success){
             console.log(`error: ${error.response.data.message}`);
