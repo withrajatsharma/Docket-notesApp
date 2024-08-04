@@ -12,8 +12,7 @@ const noteSchema = new Schema({
     },
     tags:{
         type:[String],
-        default:[]
-        
+        default:[]     
     },
     isPinned:{
         type:Boolean,
