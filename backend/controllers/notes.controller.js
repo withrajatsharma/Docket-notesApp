@@ -6,8 +6,7 @@ const addNote = async (req,res)=>{
             const {title,content,tags} = req.body;
 
             const userId = req.user.user._id;
-            
-
+        
             if(!title || !content){
                return  res.status(500).json({
                     success: false,
