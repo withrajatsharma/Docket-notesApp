@@ -15,6 +15,7 @@ import Login from "./pages/Login/Login.jsx";
 import Loading from "./components/Loading/Loading.jsx";
 import { AnimatePresence } from "framer-motion";
 
+
 const Home = lazy(() => import("./pages/Home/Home.jsx"));
 // const Login = lazy(() => import("./pages/Login/Login.jsx"));
 // const SignUp = lazy(() => import("./pages/SignUp/SignUp.jsx"));
